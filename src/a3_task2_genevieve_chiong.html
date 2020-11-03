@@ -411,7 +411,7 @@ sw_split_name &lt;- starwars %&gt;%
            into = c(&quot;name_1&quot;,&quot;name_2&quot;),
            sep = &quot;-&quot;)
 
-# &#39;Ki-Adi-Mundi&#39; was only split into &#39;Ki&#39; and &#39;Adi&#39;, and &#39;Mundi&#39; was dropped.</code></pre>
+# In Row 49, &#39;Ki-Adi-Mundi&#39; was only split into &#39;Ki&#39; and &#39;Adi&#39; -&#39;Mundi&#39; was dropped since it was after the second dash. </code></pre>
 </div>
 <div id="b.-follow-me" class="section level4">
 <h4>1B. Follow me</h4>
@@ -523,10 +523,10 @@ my_dates_converted # Return my_dates_converted</code></pre>
 <p>In the code chunk below, create a vector (using <code>c()</code>, as above) stored as <code>some_dates</code> that contains three values that represent dates as numbers, in mdy format: 11061972, 02142007,01301843. Then in the next line, use <code>lubridate::mdy()</code> to return them in date format, storing as a vector <code>some_dates_converted</code>. Write a third line to check the class of that vector.</p>
 <pre class="r"><code># Your code here: 
 
-some_dates &lt;- c(02272020, 02292020, 122520)
+some_dates &lt;- c(11061972, 02142007,01301843)
 some_dates_converted &lt;- mdy(some_dates)
 some_dates_converted</code></pre>
-<pre><code>## [1] &quot;2020-02-27&quot; &quot;2020-02-29&quot; &quot;2020-12-25&quot;</code></pre>
+<pre><code>## [1] &quot;1972-11-06&quot; &quot;2007-02-14&quot; &quot;1843-01-30&quot;</code></pre>
 <pre class="r"><code>class(some_dates_converted)</code></pre>
 <pre><code>## [1] &quot;Date&quot;</code></pre>
 </div>
@@ -586,21 +586,18 @@ gasol_hookshots &lt;- lakers %&gt;%
   filter(player == &quot;Pau Gasol&quot;, type == &quot;hook&quot;) %&gt;% 
   mutate(date_new = ymd(date)) %&gt;% 
   mutate(month_new = month(date_new)) %&gt;% 
-  group_by(month_new) %&gt;% 
-  count(month_new)
+  select(month_new) %&gt;% 
+  count(month_new) 
 
 gasol_hookshots</code></pre>
-<pre><code>## # A tibble: 7 x 2
-## # Groups:   month_new [7]
-##   month_new     n
-##       &lt;dbl&gt; &lt;int&gt;
-## 1         1    19
-## 2         2    16
-## 3         3    20
-## 4         4    14
-## 5        10     2
-## 6        11    14
-## 7        12    10</code></pre>
+<pre><code>##   month_new  n
+## 1         1 19
+## 2         2 16
+## 3         3 20
+## 4         4 14
+## 5        10  2
+## 6        11 14
+## 7        12 10</code></pre>
 </div>
 </div>
 <div id="dplyrcase_when" class="section level3">
@@ -616,7 +613,8 @@ gasol_hookshots</code></pre>
 </ul>
 <p>This means I want to write what (in code) is usually called an “if-else” statement: If [this is true] then [do this], otherwise if [this is true] then [do this].</p>
 <p>Here, we’ll use <code>dplyr::case_when()</code> to more easily write sequences of if-else statements to populate our new column. It exists <em>within</em> <code>mutate()</code>, which creates the new column - <code>case_when()</code> determines what’s in it based on another variable.</p>
-<p>4A. Follow me</p>
+<div id="a.-follow-me-3" class="section level4">
+<h4>4A. Follow me</h4>
 <p>Here’s what that looks like for the example described above:</p>
 <pre class="r"><code># Run this code: 
 
@@ -630,7 +628,9 @@ storm_season &lt;- storms %&gt;% # Start from storms data
   )
 
 # Run View(storm_season) in the Console to view the output data frame. See the new season column? That&#39;s been added using mutate &amp; case_when()! </code></pre>
-<p>4A. On your own</p>
+</div>
+<div id="a.-on-your-own-3" class="section level4">
+<h4>4A. On your own</h4>
 <p>Create a new version of storms called <code>storms_danger</code> in which you add a new column <code>danger</code> where if the status matches “hurricane”, then the danger column contains “high”; if the status is anything other than “hurricane”, then the danger column contains “moderate”. <strong>Hint:</strong> remember that when looking for a match, we use <code>==</code>.</p>
 <p>Note: If you add another condition within <code>case_when()</code> that is <code>TRUE ~ &quot;some thing&quot;</code>, then any entry that hasn’t been specified by previous conditions will get that “catch all” statement.</p>
 <pre class="r"><code># Your code here: 
@@ -639,6 +639,7 @@ storms_danger &lt;- storms %&gt;%
   mutate(danger = case_when(
     status == &quot;hurricane&quot; ~ &quot;high&quot;,
     TRUE ~ &quot;moderate&quot;))</code></pre>
+</div>
 </div>
 </div>
 <div id="practice-version-control-wgit" class="section level2">

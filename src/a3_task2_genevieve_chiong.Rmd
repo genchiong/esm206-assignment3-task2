@@ -64,7 +64,7 @@ sw_split_name <- starwars %>%
            into = c("name_1","name_2"),
            sep = "-")
 
-# 'Ki-Adi-Mundi' was only split into 'Ki' and 'Adi', and 'Mundi' was dropped.
+# In Row 49, 'Ki-Adi-Mundi' was only split into 'Ki' and 'Adi' -'Mundi' was dropped since it was after the second dash. 
 ```
 
 #### 1B. Follow me
@@ -203,7 +203,7 @@ In the code chunk below, create a vector (using `c()`, as above) stored as `some
 ```{r}
 # Your code here: 
 
-some_dates <- c(02272020, 02292020, 122520)
+some_dates <- c(11061972, 02142007,01301843)
 some_dates_converted <- mdy(some_dates)
 some_dates_converted
 
@@ -256,8 +256,8 @@ gasol_hookshots <- lakers %>%
   filter(player == "Pau Gasol", type == "hook") %>% 
   mutate(date_new = ymd(date)) %>% 
   mutate(month_new = month(date_new)) %>% 
-  group_by(month_new) %>% 
-  count(month_new)
+  select(month_new) %>% 
+  count(month_new) 
 
 gasol_hookshots
 ```
@@ -279,7 +279,7 @@ This means I want to write what (in code) is usually called an "if-else" stateme
 
 Here, we'll use `dplyr::case_when()` to more easily write sequences of if-else statements to populate our new column. It exists *within* `mutate()`, which creates the new column - `case_when()` determines what's in it based on another variable. 
 
-4A. Follow me
+#### 4A. Follow me
 
 Here's what that looks like for the example described above:
 
@@ -299,7 +299,7 @@ storm_season <- storms %>% # Start from storms data
 
 ```
 
-4A. On your own
+#### 4A. On your own
 
 Create a new version of storms called `storms_danger` in which you add a new column `danger` where if the status matches "hurricane", then the danger column contains "high"; if the status is anything other than "hurricane", then the danger column contains "moderate". **Hint:** remember that when looking for a match, we use `==`.
 
